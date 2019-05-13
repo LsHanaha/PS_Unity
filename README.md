@@ -1,3 +1,3 @@
 # PS_Unity
 Telegram bot shop of PS4 games
-Flsak + Python 3.6
+Flask + Python 3.6
