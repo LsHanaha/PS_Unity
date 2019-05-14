@@ -13,26 +13,23 @@ from flask import jsonify
 from flask_sslify import SSLify
 import json
 import Base
+from Key_tg import telegram_key
 from flask import Flask
 
 
-bot = telebot.TeleBot("777566365:AAG3bkEb6MYGaJpIZmk-JaBwHYNwk-y15ek", threaded=False)
+bot = telebot.TeleBot("telegram_key", threaded=False)
 
 app = Flask(__name__)
 sslify = SSLify(app) # Настраиваем шифрование
 
-# https://api.telegram.org/bot777566365:AAG3bkEb6MYGaJpIZmk-JaBwHYNwk-y15ek/setWebhook?url=playps.pythonanywhere.com/
-# 777566365:AAG3bkEb6MYGaJpIZmk-JaBwHYNwk-y15ek Включаем Веб-хук
-
-
 @app.route('/', methods=["POST"])
 def telegram_webhook():
     bot.remove_webhook()
-    bot.set_webhook("https://playps.pythonanywhere.com/777566365:AAG3bkEb6MYGaJpIZmk-JaBwHYNwk-y15ek", max_connections=1)
+    bot.set_webhook("https://playps.pythonanywhere.com/" + telegram_key, max_connections=1)
     return "OK"
 
 
-@app.route('/777566365:AAG3bkEb6MYGaJpIZmk-JaBwHYNwk-y15ek', methods=['POST'])
+@app.route('/' + telegram_key, methods=['POST'])
 def webhook():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
     return "!", 200
